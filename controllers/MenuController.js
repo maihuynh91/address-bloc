@@ -11,6 +11,7 @@ module.exports = class MenuController {
              choices: [
                 "Add new contact",
                 "Exit",
+                "View all contacts",
                 "Get Date"
               ]
             }
@@ -30,6 +31,10 @@ module.exports = class MenuController {
                 
                 case "Get Date":
                     this.getDate();
+                    break;
+                
+                case "View all contacts":
+                    this.getContacts();
                     break;
 
                 default:
@@ -78,7 +83,27 @@ module.exports = class MenuController {
     getContactCount(){
         return this.contacts.length;
       }
-      remindMe(){
-          return "Learning is a life-long pursuit"
+
+    remindMe(){
+        return "Learning is a life-long pursuit"
+    }
+
+    getContacts(){
+        this.clear();
+  
+        this.book.getContacts().then((contacts) => {
+          for (let contact of contacts) {
+            console.log(`
+            name: ${contact.name}
+            phone number: ${contact.phone}
+            email: ${contact.email}
+            ---------------`
+            );
+          }
+          this.main();
+        }).catch((err) => {
+          console.log(err);
+          this.main();
+        });
       }
 }
